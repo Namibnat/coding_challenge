@@ -9,22 +9,49 @@ class DataExtractor:
     def __init__(self, html, config):
         self.html = html
         self.config = config
+        self.top_node = None
         self.top_node_descendants = None
         self.output_data = {}
 
     def get_top_node_descendants(self):
         """Extract the top node from the data"""
         soup = BeautifulSoup(self.html, 'html.parser')
-        div_contents = soup.find('div', class_='content')
-        self.top_node_descendants = div_contents.find_all('div', class_='products')
+        top_node_config = self.config['base_node']
+        self.top_node = soup.find(top_node_config['type'], attrs=top_node_config["attributes"])
+
+    @staticmethod
+    def _extract_items(node, children_nodes_config):
+        """Extract the items per node required by the config"""
+        data = {}
+        for item, extraction_data in children_nodes_config.items():
+            extraction_item = extraction_data['find']
+            return_item = extraction_data['return']
+            if 'attributes' in extraction_item.keys():
+                source_item = node.find(extraction_item['type'], attr=extraction_data['attributes'])
+            else:
+                source_item = node.find(extraction_item['type'])
+            if isinstance(return_item, str):
+                if return_item == 'text':
+                    data[item] = source_item.text.strip()
+            elif isinstance(return_item, dict):
+                data[item] = source_item[return_item['attribute']]
+        return data
 
     def find_items_by_config(self):
         """Find the items as required by the config json"""
-        pass
+        self.output_data['data'] = []
+        reference = self.config['child_nodes']['reference']
+        children_nodes_config = self.config['child_nodes']['structure']
+        structure_node = children_nodes_config['node']
+        self.top_node_descendants = self.top_node.find_all(structure_node['type'], attrs=structure_node['attributes'])
 
-    def export_data_as_json(self):
+        for node in self.top_node_descendants:
+            item = {reference: self._extract_items(node, structure_node['child_nodes'])}
+            self.output_data['data'].append(item)
+
+    def export_data_as_json(self, filename='data_file.json'):
         try:
-            with open('output/filename.json', 'w') as fp:
+            with open(f'output/{filename}', 'w') as fp:
                 json.dump(self.output_data, fp)
         except IOError as e:
             print(f"Data could not be written to file: {e}")
