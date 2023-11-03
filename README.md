@@ -39,7 +39,7 @@ CONFIG_FILE=config_file_name.json
 Then you can run the extractor with:
 
 ```
-python src/main.py
+python3 src/main.py
 ```
 
 ## Testing
