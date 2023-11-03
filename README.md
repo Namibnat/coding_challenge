@@ -8,6 +8,8 @@ The output format provides data regarding the products in a JSON format.
 
 ## Requirements
 
+The project was developed with python3.9
+
 Requirements can be found in the requirements.txt file. To run this successfully, set up a python virtual environment and run the following command:
 
 ```
