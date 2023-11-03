@@ -27,14 +27,28 @@ class DataExtractor:
             extraction_item = extraction_data['find']
             return_item = extraction_data['return']
             if 'attributes' in extraction_item.keys():
-                source_item = node.find(extraction_item['type'], attr=extraction_data['attributes'])
+                try:
+                    source_item = node.find(extraction_item['type'], attrs=extraction_item['attributes'])
+                except:
+                    source_item = "Data not available for this field"
             else:
-                source_item = node.find(extraction_item['type'])
+                try:
+                    source_item = node.find(extraction_item['type'])
+                except:
+                    source_item = "Data not available for this field"
             if isinstance(return_item, str):
                 if return_item == 'text':
-                    data[item] = source_item.text.strip()
+                    try:
+                        data[item] = source_item.text.strip()
+                    except:
+                        data[item] = "Data not available for this field"
+
             elif isinstance(return_item, dict):
-                data[item] = source_item[return_item['attribute']]
+                try:
+                    data[item] = source_item[return_item['attribute']]
+                except:
+                    data[item] = "Data not available for this field"
+
         return data
 
     def find_items_by_config(self):
@@ -49,9 +63,10 @@ class DataExtractor:
             item = {reference: self._extract_items(node, structure_node['child_nodes'])}
             self.output_data['data'].append(item)
 
-    def export_data_as_json(self, filename='data_file.json'):
+    def export_data_as_json(self):
+        """Save data to data file in output directory"""
         try:
-            with open(f'output/{filename}', 'w') as fp:
+            with open(f"output/{self.config['output_filename']}.json", 'w') as fp:
                 json.dump(self.output_data, fp)
         except IOError as e:
             print(f"Data could not be written to file: {e}")

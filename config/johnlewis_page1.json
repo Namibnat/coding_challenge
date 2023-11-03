@@ -1,0 +1,100 @@
+{
+    "scraper": {
+        "url": "https://www.johnlewis.com/browse/special-offers/electrical-offers/cooking-appliance-offers/_/N-eet",
+        "allow_cookies_button": "c-button--medium-L2-Es c-button--primary-3tLoH"
+    },
+    "extractor": {
+        "output_filename": "johnlewis_page1",
+        "base_node": {
+            "type": "div",
+            "attributes": {
+                "class": "ProductGrid_product-grid__Ph0C3",
+                "data-test-id": "product-grid"
+            }
+        },
+        "child_nodes": {
+            "reference": "product",
+            "structure": {
+                "node": {
+                    "type": "div",
+                    "attributes": "ProductGrid_product-grid__product__oD7Jq",
+                    "child_nodes": {
+                        "product_name": {
+                            "find": {
+                                "type": "span",
+                                "attributes": {
+                                    "class": "title_title__brand__UX8j9"
+                                }
+                            },
+                            "return": "text"
+                        },
+                        "product_image_url": {
+                            "find": {
+                                "type": "img"
+                            },
+                            "return": {
+                                "attribute": "src"
+                            }
+                        },
+                        "price": {
+                            "find": {
+                                "type": "span",
+                                "attributes": {
+                                    "class": "price_price__now__3B4yM"
+                                }
+                            },
+                            "return": "text"
+                        },
+                        "description": {
+                            "find": {
+                                "type": "span",
+                                "attributes": {
+                                    "class": "title_title__desc__ZCdyp"
+                                }
+                            },
+                            "return": "text"
+                        },
+                        "product_url": {
+                            "find": {
+                                "type": "a",
+                                "attributes": {
+                                    "class": "product-card_c-product-card__link__QeVVQ"
+                                }
+                            },
+                            "return": {
+                                "attribute": "href"
+                            }
+                        },
+                        "promo_message": {
+                            "find": {
+                                "type": "p",
+                                "attributes": {
+                                    "class": "promo-messages_promo__La02x"
+                                }
+                            },
+                            "return": "text"
+                        },
+                        "rating_text": {
+                            "find": {
+                                "type": "span",
+                                "attributes": {
+                                    "class": "rating_visuallyHidden__zgQQN"
+                                }
+                            },
+                            "return": "text"
+                        },
+                        "special_offer": {
+                            "find": {
+                                "type": "span",
+                                "attributes": {
+                                    "class": "promo-messages_visuallyHidden__Kcyk2"
+                                }
+                            },
+                            "return": "text"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
