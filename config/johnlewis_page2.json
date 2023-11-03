@@ -1,7 +1,7 @@
 {
     "scraper": {
         "url": "https://www.johnlewis.com/browse/special-offers/electrical-offers/cooking-appliance-offers/_/N-eet?page=2",
-        "allow_cookies_button": "c-button--medium-L2-Es c-button--primary-3tLoH"
+        "allow_cookies_button": "c-button--primary-3tLoH"
     },
     "extractor": {
         "output_filename": "johnlewis_page1",

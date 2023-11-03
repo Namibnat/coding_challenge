@@ -63,6 +63,8 @@ class DataExtractor:
             item = {reference: self._extract_items(node, structure_node['child_nodes'])}
             self.output_data['data'].append(item)
 
+        print(f"Collected {len(self.output_data['data'])} items")
+
     def export_data_as_json(self):
         """Save data to data file in output directory"""
         try:
