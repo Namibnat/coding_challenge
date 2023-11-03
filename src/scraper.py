@@ -33,7 +33,7 @@ class Scraper:
         # If there is a cookie button, press it
         if 'allow_cookies_button' in self.config:
             try:
-                wait = WebDriverWait(self.driver, 10)
+                wait = WebDriverWait(self.driver, SLEEP_TIME)
                 cookie_button = wait.until(EC.element_to_be_clickable(
                     (By.CLASS_NAME, self.config['allow_cookies_button'])))
                 cookie_button.click()
@@ -44,7 +44,7 @@ class Scraper:
             except Exception as e:
                 print(f"An error occurred: {e}")
         try:
-            wait = WebDriverWait(self.driver, 10)
+            wait = WebDriverWait(self.driver, SLEEP_TIME)
             wait.until(lambda driver: driver.execute_script("return document.body.scrollHeight") > 0)
         except TimeoutException:
             print("Timed out waiting for the initial scroll height to be available.")
